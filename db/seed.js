@@ -1,42 +1,46 @@
-const { client } = require('./index');
+// const { client } = require('./index');
 
-async function testDB() {
-    try {
-        client.connect();
+// async function testDB() {
+//     try {
+//         client.connect();
 
-        const { rows } = await client.query(`SELECT * FROM users;`);
-        console.log(rows);
-    } catch (error) {
-        console.error(error);
-    } finally {
-        client.end();
-    }
-}
+//         const { rows } = await client.query(`SELECT * FROM users;`);
+//         console.log(rows);
+//     } catch (error) {
+//         console.error(error);
+//     } finally {
+//         client.end();
+//     }
+// }
 
-testDB();
+// testDB();
 
 const {
     client,
-    getAllUsers
+    getAllUsers,
+    createUser
 } = require('./index');
 
-async function testDB() {
+
+async function createInitialUsers() {
     try {
-        console.log("Starting to test database...");
+        console.log("Starting to create users...");
 
-        const users = await getAllUsers();
-        console.log("getAllUsers:", users);
+        const albert = await createUser({ username: 'albert', password: 'bertie99' })
+        const sandra = await createUser({ username: 'sandra', password: '2sandy4me' });
+        const glamgal = await createUser({ username: 'glamgal', password: 'soglam' });
 
-        console.log("Finished database tests!");
-        client.connect();
+        console.log(albert);
+        console.log(sandra);
+        console.log(glamgal);
 
-        const users = await getAllUsers();
-        
-    } catch (error) {
-        console.error("Error testing database!");
+        console.log("Finished creating users!");
+    } catch(error) {
+        console.error("Error creating users!");
         throw error;
     }
 }
+
 
 async function dropTables() {
     try {
@@ -78,12 +82,33 @@ async function rebuildDB() {
 
         await dropTables();
         await createTables();
+        await createInitialUsers();
     } catch (error) {
-        console.error(error);
+        throw error;
     } 
+}
+
+async function testDB() {
+    try {
+        console.log("Starting to test database...");
+
+        const users = await getAllUsers();
+        console.log("getAllUsers:", users);
+
+        console.log("Finished database tests!");
+        
+    } catch (error) {
+        console.error("Error testing database!");
+        throw error;
+    }
 }
 
 rebuildDB()
     .then(testDB)
     .catch(console.error)
     .finally(() => client.end());
+
+    
+
+
+
