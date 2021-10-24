@@ -205,6 +205,9 @@ async function dropTables() {
     const albertPosts = await getPostById(users[0].id);
     console.log("Albert Posts: ", albertPosts);
 
+    console.log("Calling getPostsByUser");
+    const getPosts = await getPostsByUser(users[0].id)
+    console.log("getPostsByUser:", getPosts);
   
     console.log("Calling getUserById with 1");
     const albert = await getUserById(1);

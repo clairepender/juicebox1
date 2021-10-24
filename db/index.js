@@ -132,12 +132,16 @@ async function createPost({
 
   async function getAllPosts() {
     try {
-      const { rows } = await client.query(`
-        SELECT *
+      const { rows: postIds } = await client.query(`
+        SELECT id
         FROM posts;
       `);
+
+      const posts = await Promise.all(postIds.map(
+          post => getPostById( post.id )
+      ));
   
-      return rows;
+      return posts;
     } catch (error) {
       throw error;
     }
@@ -261,6 +265,24 @@ async function createPost({
     
   }
 
+
+  async function getPostsByUser(userId) {
+    try {
+      const { rows: postIds } = await client.query(`
+        SELECT id 
+        FROM posts 
+        WHERE "authorId"=${ userId };
+      `);
+  
+      const posts = await Promise.all(postIds.map(
+        post => getPostById( post.id )
+      ));
+  
+      return posts;
+    } catch (error) {
+      throw error;
+    }
+  }
   
 
 module.exports = {
