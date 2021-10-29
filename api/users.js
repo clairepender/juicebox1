@@ -1,13 +1,14 @@
 const express = require('express');
 const usersRouter = express.Router();
 
+const { getAllUsers } = require('../db');
+
 usersRouter.use((req, res, next) => {
     console.log("A requeset is being made to /users");
 
     next();
 });
 
-const { getAllUsers } = require('../db');
 
 usersRouter.get('/', async (req, res) => {
     const users = await getAllUsers();
@@ -15,6 +16,11 @@ usersRouter.get('/', async (req, res) => {
     res.send({
         users
     });
+});
+
+usersRouter.post('/login', async (req, res, next) => {
+    console.log(req.body);
+    res.end();
 });
 
 module.exports = usersRouter; 
