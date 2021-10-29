@@ -18,9 +18,9 @@ usersRouter.get('/', async (req, res) => {
     });
 });
 
-usersRouter.post('/login', async (req, res, next) => {
+usersRouter.post('/login', async (req, res) => {
     console.log(req.body);
-    res.end();
+    res.send();
 });
 
 module.exports = usersRouter; 
