@@ -337,6 +337,18 @@ async function createPost({
   }
   
 
+  /*getAllTags function: It should be a straightforward 
+  SELECT * FROM tags; query. Make sure to add it to your module.exports at the bottom of the file 
+  so that your require will work in api/tags.js!*/
+  async function getAllTags() {
+    const { rows: tags } = await client.query(
+      `SELECT *
+      FROM tags;
+      `)
+  return tags;
+  }
+
+
 
 
 module.exports = {
@@ -353,5 +365,6 @@ module.exports = {
     createPostTag,
     addTagsToPost,
     getPostById,
-    getPostsByTagName
+    getPostsByTagName,
+    getAllTags
 }
