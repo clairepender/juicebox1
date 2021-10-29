@@ -1,7 +1,7 @@
 const express = require('express');
 const apiRouter = express.Router();
 
-server.use(async (req, res, next) => {
+apiRouter.use(async (req, res, next) => {
     const prefix = 'Bearer '
     const auth = req.headers['Authorization'];
   
